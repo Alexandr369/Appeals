@@ -91,11 +91,21 @@
                     <textarea class="form-control" id="staff_response" name="staff_response" rows="5">{{ old('staff_response', $appeal->staff_response) }}</textarea>
                 </div>
 
-                @if ($autoActionEnabled && $appeal->sanction_type !== null)
+                @if ($autoActionEnabled && ! empty($autoActionCommands))
                     <div class="mb-3 form-check">
-                        <input class="form-check-input" type="checkbox" id="auto_action" name="auto_action" value="lift">
-                        <label class="form-check-label" for="auto_action">{{ trans('appeals::admin.appeals.auto_action_lift') }}</label>
+                        <input class="form-check-input" type="checkbox" id="auto_action_toggle" onchange="appealsToggleAutoActionSelect()">
+                        <label class="form-check-label" for="auto_action_toggle">{{ trans('appeals::admin.appeals.auto_action_toggle') }}</label>
                         <div class="form-text">{{ trans('appeals::admin.appeals.auto_action_help') }}</div>
+                    </div>
+
+                    <div class="mb-3" id="appeals-auto-action-select" style="display: none;">
+                        <label class="form-label" for="auto_action">{{ trans('appeals::admin.appeals.auto_action') }}</label>
+                        <select class="form-select" id="auto_action" name="auto_action">
+                            <option value="">{{ trans('appeals::admin.appeals.auto_action_none') }}</option>
+                            @foreach ($autoActionCommands as $autoActionCommand)
+                                <option value="{{ $autoActionCommand['command'] }}">{{ $autoActionCommand['name'] }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 @endif
 
@@ -118,14 +128,28 @@
         </button>
     </form>
 
-    @if (! empty($quickResponses))
+    @if (! empty($quickResponses) || ($autoActionEnabled && ! empty($autoActionCommands)))
         @push('scripts')
             <script>
-                function appealsFillQuickResponse(select) {
-                    if (select.value) {
-                        document.getElementById('staff_response').value = select.value;
+                @if (! empty($quickResponses))
+                    function appealsFillQuickResponse(select) {
+                        if (select.value) {
+                            document.getElementById('staff_response').value = select.value;
+                        }
                     }
-                }
+                @endif
+
+                @if ($autoActionEnabled && ! empty($autoActionCommands))
+                    function appealsToggleAutoActionSelect() {
+                        var checked = document.getElementById('auto_action_toggle').checked;
+
+                        document.getElementById('appeals-auto-action-select').style.display = checked ? '' : 'none';
+
+                        if (! checked) {
+                            document.getElementById('auto_action').value = '';
+                        }
+                    }
+                @endif
             </script>
         @endpush
     @endif

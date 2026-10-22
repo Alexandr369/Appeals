@@ -82,6 +82,7 @@ class AppealController extends Controller
             'appeal' => $appeal->load('user', 'handledBy'),
             'statuses' => Appeal::STATUSES,
             'autoActionEnabled' => (bool) setting('appeals.auto_action_enabled', false),
+            'autoActionCommands' => $this->autoActionCommands(),
             'quickResponses' => $this->quickResponses(),
         ]);
     }
@@ -96,7 +97,7 @@ class AppealController extends Controller
         $this->validate($request, [
             'status' => ['required', 'string', Rule::in(Appeal::STATUSES)],
             'staff_response' => ['nullable', 'string', 'max:5000'],
-            'auto_action' => ['nullable', 'string', 'in:lift'],
+            'auto_action' => ['nullable', 'string', Rule::in(array_column($this->autoActionCommands(), 'command'))],
         ]);
 
         $statusChanged = $appeal->status !== $request->input('status');
@@ -131,21 +132,21 @@ class AppealController extends Controller
     }
 
     /**
-     * Send the lift command on the game server configured in the settings,
-     * through Azuriom's own server bridge (AzLink). Never writes to the external
-     * AdvancedBan/LibertyBans database directly.
+     * Send the staff-selected custom command on the game server configured in the
+     * settings, through Azuriom's own server bridge (AzLink). Never writes to the
+     * external AdvancedBan/LibertyBans database directly.
      *
      * @return string|null a feedback message to show the staff, or null if no
-     *                      action was requested in the form.
+     *                      command was selected in the form.
      */
-    private function dispatchAutoAction(Appeal $appeal, ?string $action): ?string
+    private function dispatchAutoAction(Appeal $appeal, ?string $command): ?string
     {
-        if ($action === null || $action === '') {
+        if ($command === null || $command === '') {
             return null;
         }
 
-        if ($appeal->sanction_type === null || $appeal->user === null) {
-            return trans('appeals::admin.appeals.auto_action_error_no_sanction');
+        if ($appeal->user === null) {
+            return trans('appeals::admin.appeals.auto_action_error_no_user');
         }
 
         $server = Server::find(setting('appeals.auto_action_server_id'));
@@ -154,15 +155,27 @@ class AppealController extends Controller
             return trans('appeals::admin.appeals.auto_action_error_no_server');
         }
 
-        $liftCommand = setting("appeals.auto_action_lift_command_{$appeal->sanction_type}");
-
-        if (! $liftCommand) {
-            return trans('appeals::admin.appeals.auto_action_error_no_command');
-        }
-
-        $server->bridge()->sendCommands([$liftCommand], $appeal->user);
+        $server->bridge()->sendCommands([$command], $appeal->user);
 
         return trans('appeals::admin.appeals.auto_action_sent', ['server' => $server->name]);
+    }
+
+    /**
+     * The admin-configured automation commands, as a list of ['name' => ..., 'command' => ...].
+     *
+     * @return array<int, array{name: string, command: string}>
+     */
+    private function autoActionCommands(): array
+    {
+        $value = setting('appeals.auto_action_commands');
+
+        if ($value === null) {
+            return trans('appeals::admin.settings.auto_action_commands_default');
+        }
+
+        $decoded = json_decode((string) $value, true);
+
+        return is_array($decoded) ? $decoded : [];
     }
 
     /**

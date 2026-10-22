@@ -150,13 +150,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="auto_action_lift_command_ban">{{ trans('appeals::admin.settings.auto_action_lift_command_ban') }}</label>
-                        <input class="form-control" id="auto_action_lift_command_ban" name="auto_action_lift_command_ban" value="{{ $autoActionLiftCommandBan }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="auto_action_lift_command_mute">{{ trans('appeals::admin.settings.auto_action_lift_command_mute') }}</label>
-                        <input class="form-control" id="auto_action_lift_command_mute" name="auto_action_lift_command_mute" value="{{ $autoActionLiftCommandMute }}">
+                        <label class="form-label">{{ trans('appeals::admin.settings.auto_action_commands') }}</label>
+                        <div id="appeals-commands-list">
+                            @foreach ($autoActionCommands as $autoActionCommand)
+                                <div class="input-group mb-2 appeals-repeatable-item">
+                                    <input type="text" class="form-control" name="auto_action_names[]" value="{{ $autoActionCommand['name'] }}" placeholder="{{ trans('appeals::admin.settings.auto_action_command_name_placeholder') }}">
+                                    <input type="text" class="form-control" name="auto_action_command_values[]" value="{{ $autoActionCommand['command'] }}" placeholder="{{ trans('appeals::admin.settings.auto_action_command_value_placeholder') }}">
+                                    <button type="button" class="btn btn-outline-danger" onclick="appealsRemoveRepeatableItem(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="appealsAddAutoActionCommand()">
+                            <i class="bi bi-plus-lg"></i> {{ trans('messages.actions.add') }}
+                        </button>
                         <div class="form-text">{{ trans('appeals::admin.settings.auto_action_commands_help') }}</div>
                     </div>
                 </div>
@@ -192,6 +200,19 @@
 
         function appealsRemoveRepeatableItem(button) {
             button.closest('.appeals-repeatable-item').remove();
+        }
+
+        function appealsAddAutoActionCommand() {
+            var container = document.getElementById('appeals-commands-list');
+            var row = document.createElement('div');
+            row.className = 'input-group mb-2 appeals-repeatable-item';
+            row.innerHTML =
+                '<input type="text" class="form-control" name="auto_action_names[]" placeholder="{{ trans('appeals::admin.settings.auto_action_command_name_placeholder') }}">' +
+                '<input type="text" class="form-control" name="auto_action_command_values[]" placeholder="{{ trans('appeals::admin.settings.auto_action_command_value_placeholder') }}">' +
+                '<button type="button" class="btn btn-outline-danger" onclick="appealsRemoveRepeatableItem(this)">' +
+                '<i class="bi bi-trash"></i></button>';
+            container.appendChild(row);
+            row.querySelector('input').focus();
         }
     </script>
 @endpush

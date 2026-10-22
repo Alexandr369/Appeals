@@ -41,8 +41,7 @@ class SettingController extends Controller
             'autoActionEnabled' => (bool) setting('appeals.auto_action_enabled', false),
             'autoActionServerId' => setting('appeals.auto_action_server_id'),
             'autoActionServers' => Server::executable()->get(),
-            'autoActionLiftCommandBan' => setting('appeals.auto_action_lift_command_ban', 'unban {player}'),
-            'autoActionLiftCommandMute' => setting('appeals.auto_action_lift_command_mute', 'unmute {player}'),
+            'autoActionCommands' => $this->autoActionCommands(),
         ]);
     }
 
@@ -69,8 +68,10 @@ class SettingController extends Controller
             'discord_message_updated' => ['nullable', 'string', 'max:500'],
             'auto_action_enabled' => ['sometimes', 'string'],
             'auto_action_server_id' => ['required_if:auto_action_enabled,on', 'nullable', 'integer', 'exists:servers,id'],
-            'auto_action_lift_command_ban' => ['nullable', 'string', 'max:255'],
-            'auto_action_lift_command_mute' => ['nullable', 'string', 'max:255'],
+            'auto_action_names' => ['nullable', 'array'],
+            'auto_action_names.*' => ['nullable', 'string', 'max:100'],
+            'auto_action_command_values' => ['nullable', 'array'],
+            'auto_action_command_values.*' => ['nullable', 'string', 'max:255'],
         ]);
 
         Setting::updateSettings([
@@ -86,8 +87,10 @@ class SettingController extends Controller
             'appeals.discord_message_updated' => $request->input('discord_message_updated'),
             'appeals.auto_action_enabled' => $request->input('auto_action_enabled') === 'on',
             'appeals.auto_action_server_id' => $request->input('auto_action_server_id'),
-            'appeals.auto_action_lift_command_ban' => $request->input('auto_action_lift_command_ban'),
-            'appeals.auto_action_lift_command_mute' => $request->input('auto_action_lift_command_mute'),
+            'appeals.auto_action_commands' => json_encode($this->zipAutoActionCommands(
+                $request->input('auto_action_names', []),
+                $request->input('auto_action_command_values', [])
+            )),
         ]);
 
         return redirect()->route('appeals.admin.settings')->with('success', trans('admin.settings.updated'));
@@ -118,6 +121,49 @@ class SettingController extends Controller
     private function joinList(array $values): string
     {
         return implode("\n", array_values(array_filter(array_map('trim', $values), fn ($value) => $value !== '')));
+    }
+
+    /**
+     * The admin-configured automation commands, as a list of ['name' => ..., 'command' => ...].
+     * Stored as JSON (not newline-separated) since each entry is a name/command pair.
+     *
+     * @return array<int, array{name: string, command: string}>
+     */
+    private function autoActionCommands(): array
+    {
+        $value = setting('appeals.auto_action_commands');
+
+        if ($value === null) {
+            return trans('appeals::admin.settings.auto_action_commands_default');
+        }
+
+        $decoded = json_decode((string) $value, true);
+
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * Pairs up the parallel "name" and "command" arrays submitted by the repeatable
+     * fields into a clean list, dropping any row missing either value.
+     *
+     * @return array<int, array{name: string, command: string}>
+     */
+    private function zipAutoActionCommands(array $names, array $commands): array
+    {
+        $result = [];
+
+        foreach ($names as $index => $name) {
+            $name = trim((string) $name);
+            $command = trim((string) ($commands[$index] ?? ''));
+
+            if ($name === '' || $command === '') {
+                continue;
+            }
+
+            $result[] = ['name' => $name, 'command' => $command];
+        }
+
+        return $result;
     }
 
     /**
