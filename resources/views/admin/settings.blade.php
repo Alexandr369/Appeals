@@ -69,6 +69,12 @@
                     <div class="form-text">{{ trans('appeals::admin.settings.block_resolved_sanction_reappeal_help') }}</div>
                 </div>
 
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" id="show_banner" name="show_banner" @checked($showBanner)>
+                    <label class="form-check-label" for="show_banner">{{ trans('appeals::admin.settings.show_banner') }}</label>
+                    <div class="form-text">{{ trans('appeals::admin.settings.show_banner_help') }}</div>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label" for="reasons">{{ trans('appeals::admin.settings.reasons') }}</label>
                     <textarea class="form-control" id="reasons" name="reasons" rows="5" placeholder="{{ trans('appeals::admin.settings.reasons_placeholder') }}">{{ $reasons }}</textarea>
@@ -76,8 +82,25 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label" for="quick_responses">{{ trans('appeals::admin.settings.quick_responses') }}</label>
+                    <textarea class="form-control" id="quick_responses" name="quick_responses" rows="5" placeholder="{{ trans('appeals::admin.settings.quick_responses_placeholder') }}">{{ $quickResponses }}</textarea>
+                    <div class="form-text">{{ trans('appeals::admin.settings.quick_responses_help') }}</div>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label" for="discord_webhook">{{ trans('appeals::admin.settings.discord_webhook') }}</label>
                     <input class="form-control" id="discord_webhook" name="discord_webhook" value="{{ $discordWebhook }}" placeholder="https://discord.com/api/webhooks/...">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="discord_message_created">{{ trans('appeals::admin.settings.discord_message_created') }}</label>
+                    <input class="form-control" id="discord_message_created" name="discord_message_created" value="{{ $discordMessageCreated }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="discord_message_updated">{{ trans('appeals::admin.settings.discord_message_updated') }}</label>
+                    <input class="form-control" id="discord_message_updated" name="discord_message_updated" value="{{ $discordMessageUpdated }}">
+                    <div class="form-text">{{ trans('appeals::admin.settings.discord_message_help') }}</div>
                 </div>
 
                 <hr>

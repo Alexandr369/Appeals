@@ -73,4 +73,11 @@ return [
         'accepted' => 'Votre demande de recours a été acceptée.',
         'rejected' => 'Votre demande de recours a été refusée.',
     ],
+
+    'banner' => [
+        'sanctioned' => 'Vous avez une sanction active sur ce serveur.',
+        'pending' => 'Votre demande de recours est en cours de traitement.',
+        'appeal' => 'Faire un recours',
+        'view' => 'Voir ma demande',
+    ],
 ];

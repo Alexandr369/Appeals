@@ -9,21 +9,27 @@ use Throwable;
 /**
  * Sends Discord notifications about appeals through the webhook configured in the settings.
  *
- * Failures are always swallowed: a Discord outage must never block a player or staff action.
+ * The message text itself is admin-configurable (settings), using {player}/{reason}/{status}
+ * placeholders. Failures are always swallowed: a Discord outage must never block a player or
+ * staff action.
  */
 class DiscordNotifier
 {
     public function notifyCreated(Appeal $appeal): void
     {
-        $this->send(trans('appeals::admin.discord.created_title'), 3447003, $appeal);
+        $template = setting('appeals.discord_message_created', trans('appeals::admin.settings.discord_message_created_default'));
+
+        $this->send($template, 3447003, $appeal);
     }
 
     public function notifyStatusChanged(Appeal $appeal): void
     {
-        $this->send(trans('appeals::admin.discord.updated_title'), $this->colorForStatus($appeal->status), $appeal);
+        $template = setting('appeals.discord_message_updated', trans('appeals::admin.settings.discord_message_updated_default'));
+
+        $this->send($template, $this->colorForStatus($appeal->status), $appeal);
     }
 
-    private function send(string $title, int $color, Appeal $appeal): void
+    private function send(string $template, int $color, Appeal $appeal): void
     {
         $webhook = setting('appeals.discord_webhook');
 
@@ -34,7 +40,7 @@ class DiscordNotifier
         try {
             Http::timeout(5)->post($webhook, [
                 'embeds' => [[
-                    'title' => $title,
+                    'description' => $this->applyPlaceholders($template, $appeal),
                     'color' => $color,
                     'fields' => [
                         ['name' => trans('appeals::admin.appeals.user'), 'value' => $appeal->user?->name ?? '?', 'inline' => true],
@@ -46,6 +52,19 @@ class DiscordNotifier
         } catch (Throwable) {
             // Ignored on purpose: a notification failure must not break the appeal workflow.
         }
+    }
+
+    private function applyPlaceholders(string $template, Appeal $appeal): string
+    {
+        return str_replace(
+            ['{player}', '{reason}', '{status}'],
+            [
+                $appeal->user?->name ?? '?',
+                $appeal->reason_key,
+                trans('appeals::messages.statuses.'.$appeal->status),
+            ],
+            $template
+        );
     }
 
     private function colorForStatus(string $status): int

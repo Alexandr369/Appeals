@@ -5,6 +5,7 @@ namespace Azuriom\Plugin\Appeals\Providers;
 use Azuriom\Extensions\Plugin\BasePluginServiceProvider;
 use Azuriom\Models\Permission;
 use Azuriom\Plugin\Appeals\Http\Middleware\NavBadgeMiddleware;
+use Azuriom\Plugin\Appeals\Http\Middleware\SanctionBannerMiddleware;
 use Azuriom\Plugin\Appeals\Models\Appeal;
 use Illuminate\Support\Facades\Schema;
 
@@ -15,6 +16,7 @@ class AppealsServiceProvider extends BasePluginServiceProvider
      */
     protected array $middleware = [
         NavBadgeMiddleware::class,
+        SanctionBannerMiddleware::class,
     ];
 
     /**

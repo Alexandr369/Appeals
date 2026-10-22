@@ -74,6 +74,18 @@
                     </select>
                 </div>
 
+                @if (! empty($quickResponses))
+                    <div class="mb-3">
+                        <label class="form-label" for="quick_response_select">{{ trans('appeals::admin.appeals.quick_response') }}</label>
+                        <select class="form-select" id="quick_response_select" onchange="appealsFillQuickResponse(this)">
+                            <option value="">{{ trans('appeals::admin.appeals.quick_response_placeholder') }}</option>
+                            @foreach ($quickResponses as $response)
+                                <option value="{{ $response }}">{{ \Illuminate\Support\Str::limit($response, 80) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
                 <div class="mb-3">
                     <label class="form-label" for="staff_response">{{ trans('appeals::admin.appeals.response') }}</label>
                     <textarea class="form-control" id="staff_response" name="staff_response" rows="5">{{ old('staff_response', $appeal->staff_response) }}</textarea>
@@ -105,4 +117,16 @@
             <i class="bi bi-trash"></i> {{ trans('messages.actions.delete') }}
         </button>
     </form>
+
+    @if (! empty($quickResponses))
+        @push('scripts')
+            <script>
+                function appealsFillQuickResponse(select) {
+                    if (select.value) {
+                        document.getElementById('staff_response').value = select.value;
+                    }
+                }
+            </script>
+        @endpush
+    @endif
 @endsection

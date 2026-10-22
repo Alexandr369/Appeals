@@ -73,4 +73,11 @@ return [
         'accepted' => 'Your appeal has been accepted.',
         'rejected' => 'Your appeal has been rejected.',
     ],
+
+    'banner' => [
+        'sanctioned' => 'You have an active sanction on this server.',
+        'pending' => 'Your appeal is currently being processed.',
+        'appeal' => 'Submit an appeal',
+        'view' => 'View my appeal',
+    ],
 ];

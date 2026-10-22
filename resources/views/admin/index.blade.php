@@ -7,6 +7,21 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <div class="row mb-4">
+        @foreach ($statuses as $status)
+            <div class="col-6 col-md-3">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <div class="fs-4 fw-bold text-{{ \Azuriom\Plugin\Appeals\Models\Appeal::statusColor($status) }}">
+                            {{ $counts[$status] }}
+                        </div>
+                        <div class="text-muted small">{{ trans('appeals::messages.statuses.'.$status) }}</div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
     <div class="card shadow mb-4">
         <div class="card-body">
             <form method="GET" class="row g-2 mb-3">

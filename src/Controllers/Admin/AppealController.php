@@ -34,7 +34,25 @@ class AppealController extends Controller
         return view('appeals::admin.index', [
             'appeals' => $query->paginate(20)->withQueryString(),
             'statuses' => Appeal::STATUSES,
+            'counts' => $this->statusCounts(),
         ]);
+    }
+
+    /**
+     * The number of appeals per status, for the summary cards.
+     *
+     * @return array<string, int>
+     */
+    private function statusCounts(): array
+    {
+        $counts = Appeal::query()
+            ->selectRaw('status, count(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        return collect(Appeal::STATUSES)
+            ->mapWithKeys(fn ($status) => [$status => (int) ($counts[$status] ?? 0)])
+            ->all();
     }
 
     /**
@@ -48,6 +66,10 @@ class AppealController extends Controller
             'appeal' => $appeal->load('user', 'handledBy'),
             'statuses' => Appeal::STATUSES,
             'autoActionEnabled' => (bool) setting('appeals.auto_action_enabled', false),
+            'quickResponses' => array_values(array_filter(array_map(
+                'trim',
+                explode("\n", (string) setting('appeals.quick_responses', ''))
+            ))),
         ]);
     }
 
