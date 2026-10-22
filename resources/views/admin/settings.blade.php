@@ -76,14 +76,38 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="reasons">{{ trans('appeals::admin.settings.reasons') }}</label>
-                    <textarea class="form-control" id="reasons" name="reasons" rows="5" placeholder="{{ trans('appeals::admin.settings.reasons_placeholder') }}">{{ $reasons }}</textarea>
+                    <label class="form-label">{{ trans('appeals::admin.settings.reasons') }}</label>
+                    <div id="appeals-reasons-list">
+                        @foreach ($reasons as $reason)
+                            <div class="input-group mb-2 appeals-repeatable-item">
+                                <input type="text" class="form-control" name="reasons[]" value="{{ $reason }}">
+                                <button type="button" class="btn btn-outline-danger" onclick="appealsRemoveRepeatableItem(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="appealsAddRepeatableItem('appeals-reasons-list', 'reasons[]')">
+                        <i class="bi bi-plus-lg"></i> {{ trans('messages.actions.add') }}
+                    </button>
                     <div class="form-text">{{ trans('appeals::admin.settings.reasons_help') }}</div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="quick_responses">{{ trans('appeals::admin.settings.quick_responses') }}</label>
-                    <textarea class="form-control" id="quick_responses" name="quick_responses" rows="5" placeholder="{{ trans('appeals::admin.settings.quick_responses_placeholder') }}">{{ $quickResponses }}</textarea>
+                    <label class="form-label">{{ trans('appeals::admin.settings.quick_responses') }}</label>
+                    <div id="appeals-quick-responses-list">
+                        @foreach ($quickResponses as $response)
+                            <div class="input-group mb-2 appeals-repeatable-item">
+                                <input type="text" class="form-control" name="quick_responses[]" value="{{ $response }}">
+                                <button type="button" class="btn btn-outline-danger" onclick="appealsRemoveRepeatableItem(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="appealsAddRepeatableItem('appeals-quick-responses-list', 'quick_responses[]')">
+                        <i class="bi bi-plus-lg"></i> {{ trans('messages.actions.add') }}
+                    </button>
                     <div class="form-text">{{ trans('appeals::admin.settings.quick_responses_help') }}</div>
                 </div>
 
@@ -154,5 +178,20 @@
         }
 
         window.addEventListener('load', appealsToggleAutomationFields);
+
+        function appealsAddRepeatableItem(containerId, inputName) {
+            var container = document.getElementById(containerId);
+            var row = document.createElement('div');
+            row.className = 'input-group mb-2 appeals-repeatable-item';
+            row.innerHTML = '<input type="text" class="form-control" name="' + inputName + '">' +
+                '<button type="button" class="btn btn-outline-danger" onclick="appealsRemoveRepeatableItem(this)">' +
+                '<i class="bi bi-trash"></i></button>';
+            container.appendChild(row);
+            row.querySelector('input').focus();
+        }
+
+        function appealsRemoveRepeatableItem(button) {
+            button.closest('.appeals-repeatable-item').remove();
+        }
     </script>
 @endpush

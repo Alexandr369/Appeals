@@ -247,10 +247,13 @@ class AppealController extends Controller
      */
     protected function reasons(): array
     {
-        return array_values(array_filter(array_map(
-            'trim',
-            explode("\n", (string) setting('appeals.reasons', ''))
-        )));
+        $value = setting('appeals.reasons');
+
+        if ($value === null) {
+            return trans('appeals::admin.settings.reasons_default');
+        }
+
+        return array_values(array_filter(array_map('trim', explode("\n", (string) $value))));
     }
 
     /**

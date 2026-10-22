@@ -56,6 +56,22 @@ class AppealController extends Controller
     }
 
     /**
+     * The staff's pre-written quick responses, for the dropdown when processing an appeal.
+     *
+     * @return string[]
+     */
+    private function quickResponses(): array
+    {
+        $value = setting('appeals.quick_responses');
+
+        if ($value === null) {
+            return trans('appeals::admin.settings.quick_responses_default');
+        }
+
+        return array_values(array_filter(array_map('trim', explode("\n", (string) $value))));
+    }
+
+    /**
      * Display a single appeal.
      *
      * @return \Illuminate\Http\Response
@@ -66,10 +82,7 @@ class AppealController extends Controller
             'appeal' => $appeal->load('user', 'handledBy'),
             'statuses' => Appeal::STATUSES,
             'autoActionEnabled' => (bool) setting('appeals.auto_action_enabled', false),
-            'quickResponses' => array_values(array_filter(array_map(
-                'trim',
-                explode("\n", (string) setting('appeals.quick_responses', ''))
-            ))),
+            'quickResponses' => $this->quickResponses(),
         ]);
     }
 

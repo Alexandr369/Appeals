@@ -27,8 +27,8 @@ class SettingController extends Controller
             'blockResolvedSanctionReappeal' => (bool) setting('appeals.block_resolved_sanction_reappeal', false),
             'showBanner' => (bool) setting('appeals.show_banner', true),
             'reappealDelayHours' => setting('appeals.reappeal_delay_hours', 72),
-            'reasons' => setting('appeals.reasons', ''),
-            'quickResponses' => setting('appeals.quick_responses', ''),
+            'reasons' => $this->listSetting('appeals.reasons', 'appeals::admin.settings.reasons_default'),
+            'quickResponses' => $this->listSetting('appeals.quick_responses', 'appeals::admin.settings.quick_responses_default'),
             'discordWebhook' => setting('appeals.discord_webhook'),
             'discordMessageCreated' => setting(
                 'appeals.discord_message_created',
@@ -60,8 +60,10 @@ class SettingController extends Controller
             'block_resolved_sanction_reappeal' => ['sometimes', 'string'],
             'show_banner' => ['sometimes', 'string'],
             'reappeal_delay_hours' => ['required', 'integer', 'min:0', 'max:8760'],
-            'reasons' => ['required', 'string'],
-            'quick_responses' => ['nullable', 'string'],
+            'reasons' => ['required', 'array', 'min:1'],
+            'reasons.*' => ['nullable', 'string', 'max:255'],
+            'quick_responses' => ['nullable', 'array'],
+            'quick_responses.*' => ['nullable', 'string', 'max:1000'],
             'discord_webhook' => ['nullable', 'url', 'max:255'],
             'discord_message_created' => ['nullable', 'string', 'max:500'],
             'discord_message_updated' => ['nullable', 'string', 'max:500'],
@@ -77,8 +79,8 @@ class SettingController extends Controller
             'appeals.block_resolved_sanction_reappeal' => $request->input('block_resolved_sanction_reappeal') === 'on',
             'appeals.show_banner' => $request->input('show_banner') === 'on',
             'appeals.reappeal_delay_hours' => $request->input('reappeal_delay_hours'),
-            'appeals.reasons' => $request->input('reasons'),
-            'appeals.quick_responses' => $request->input('quick_responses'),
+            'appeals.reasons' => $this->joinList($request->input('reasons', [])),
+            'appeals.quick_responses' => $this->joinList($request->input('quick_responses', [])),
             'appeals.discord_webhook' => $request->input('discord_webhook'),
             'appeals.discord_message_created' => $request->input('discord_message_created'),
             'appeals.discord_message_updated' => $request->input('discord_message_updated'),
@@ -89,6 +91,33 @@ class SettingController extends Controller
         ]);
 
         return redirect()->route('appeals.admin.settings')->with('success', trans('admin.settings.updated'));
+    }
+
+    /**
+     * A newline-separated setting (reasons, quick responses...), as a list for the
+     * repeatable "add" form fields. Falls back to a translated default list only
+     * when the setting has never been saved at all.
+     *
+     * @return string[]
+     */
+    private function listSetting(string $key, string $defaultTransKey): array
+    {
+        $value = setting($key);
+
+        if ($value === null) {
+            return trans($defaultTransKey);
+        }
+
+        return array_values(array_filter(array_map('trim', explode("\n", (string) $value))));
+    }
+
+    /**
+     * Turns the submitted array of repeatable field values back into the
+     * newline-separated string the setting is stored as.
+     */
+    private function joinList(array $values): string
+    {
+        return implode("\n", array_values(array_filter(array_map('trim', $values), fn ($value) => $value !== '')));
     }
 
     /**
