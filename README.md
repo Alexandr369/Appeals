@@ -1,16 +1,17 @@
 # Appeals
 
-Azuriom plugin letting players appeal their bans and mutes directly from your website, with optional automatic detection from AdvancedBan or LibertyBans.
+Azuriom plugin letting players appeal a sanction directly from your website — every appeal is tied to structured sanction data (type, date, staff), not a generic support ticket. Works with any game or moderation system; AdvancedBan/LibertyBans auto-detection is an optional bonus for Minecraft servers.
 
 ## 🇫🇷 Français
 
 # Appeals — Système de recours de sanctions
 
-Vos joueurs bannis ou mute n'ont aujourd'hui aucun moyen de contester leur sanction depuis votre site. Les plugins existants (AdvancedBan, LibertyBans) se limitent à **afficher** la liste des sanctions — aucun ne permet de déposer un recours. **Appeals** comble ce manque : un vrai système de recours, intégré à votre thème, qui se connecte directement à vos sanctions existantes.
+Vos joueurs sanctionnés n'ont aujourd'hui aucun moyen de contester leur sanction depuis votre site. **Ce n'est pas un système de tickets générique** comme le plugin Support : chaque demande Appeals est structurée autour d'une sanction précise (type, date, responsable), que celle-ci soit détectée automatiquement ou renseignée par le joueur. **Appeals fonctionne avec n'importe quel jeu ou système de modération** — AdvancedBan et LibertyBans (Minecraft) ne sont que des intégrations optionnelles qui évitent au joueur de ressaisir les informations à la main.
 
 ### Côté joueur
 
-- Dépose une demande de recours (motif + explication libre) contre un ban ou un mute actif. Longueur minimale et maximale de l'explication configurables, avec compteur de caractères en direct.
+- Dépose une demande de recours contre une sanction : type, date, responsable et motif de la sanction, en plus de son explication. Longueur minimale et maximale de l'explication configurables, avec compteur de caractères en direct.
+- Si aucun plugin de sanctions compatible n'est installé (serveur non-Minecraft, ou autre système de modération), le joueur renseigne lui-même ces informations dans un formulaire dédié — **Appeals reste pleinement fonctionnel sans aucune dépendance à un jeu en particulier**.
 - Un texte d'introduction personnalisable (règles, conseils...) peut être affiché en haut du formulaire.
 - **Détection automatique** de la sanction en cours si AdvancedBan ou LibertyBans est installé (raison, staff, durée affichés automatiquement) — aucune ressaisie manuelle des identifiants de connexion, Appeals réutilise directement la configuration déjà en place dans le plugin AdvancedBan/LibertyBans.
 - Banni **et** muté en même temps ? Le joueur choisit lui-même, via un menu déroulant, quelle sanction il souhaite contester.
@@ -33,7 +34,7 @@ Vos joueurs bannis ou mute n'ont aujourd'hui aucun moyen de contester leur sanct
 
 ### Compatibilité
 
-- Fonctionne seul (saisie libre par le joueur) ou connecté à **AdvancedBan** / **LibertyBans** (MySQL, MariaDB et PostgreSQL pris en charge pour LibertyBans).
+- Fonctionne seul, avec saisie manuelle structurée par le joueur (type, date, responsable), ou connecté à **AdvancedBan** / **LibertyBans** (MySQL, MariaDB et PostgreSQL pris en charge pour LibertyBans).
 - 100 % lecture seule sur ces bases externes : Appeals ne modifie jamais vos données de sanctions.
 - Traductions complètes en français et en anglais.
 - Compatible avec le thème par défaut d'Azuriom, construit en Bootstrap 5 pour s'intégrer à la plupart des autres thèmes.
@@ -42,11 +43,12 @@ Vos joueurs bannis ou mute n'ont aujourd'hui aucun moyen de contester leur sanct
 
 # Appeals — Sanction appeal system
 
-Banned or muted players currently have no way to contest their sanction from your website. Existing plugins (AdvancedBan, LibertyBans) only **display** the list of sanctions — none of them let players actually appeal. **Appeals** fills that gap: a real appeal system, built into your theme, that connects directly to your existing sanctions.
+Sanctioned players currently have no way to contest their sanction from your website. **This is not a generic ticket system** like the Support plugin: every Appeals request is structured around a specific sanction (type, date, staff), whether it's detected automatically or entered by the player. **Appeals works with any game or moderation system** — AdvancedBan and LibertyBans (Minecraft) are only optional integrations that save the player from typing the details in by hand.
 
 ### Player side
 
-- Submit an appeal (reason + free-text explanation) against an active ban or mute. Minimum and maximum explanation length are configurable, with a live character counter.
+- Submit an appeal against a sanction: type, date, staff member and reason for the sanction, on top of their own explanation. Minimum and maximum explanation length are configurable, with a live character counter.
+- If no compatible sanction plugin is installed (non-Minecraft server, or another moderation system), the player fills in these details themselves in a dedicated form — **Appeals stays fully functional with no dependency on any particular game**.
 - An optional, customizable intro text (rules, tips...) can be shown above the form.
 - **Automatic sanction detection** if AdvancedBan or LibertyBans is installed (reason, staff, duration shown automatically) — no need to re-enter any database credentials, Appeals directly reuses the connection already configured in the AdvancedBan/LibertyBans plugin.
 - Banned **and** muted at the same time? The player picks, from a dropdown, which sanction they want to appeal.
@@ -69,7 +71,7 @@ Banned or muted players currently have no way to contest their sanction from you
 
 ### Compatibility
 
-- Works standalone (free-text entry from the player) or connected to **AdvancedBan** / **LibertyBans** (MySQL, MariaDB and PostgreSQL supported for LibertyBans).
+- Works standalone, with structured manual entry from the player (type, date, staff), or connected to **AdvancedBan** / **LibertyBans** (MySQL, MariaDB and PostgreSQL supported for LibertyBans).
 - 100% read-only on those external databases: Appeals never modifies your sanction data.
 - Fully translated in French and English.
 - Compatible with Azuriom's default theme, built with Bootstrap 5 to fit most other themes.

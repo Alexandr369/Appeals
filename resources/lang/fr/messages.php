@@ -23,6 +23,12 @@ return [
         'no_sanction_detected' => 'Aucune sanction active n\'a été détectée automatiquement. Vous pouvez tout de même déposer votre demande.',
         'multiple_sanctions' => 'Vous avez plusieurs sanctions actives. Choisissez celle que vous souhaitez contester.',
         'choose_sanction' => 'Sanction à contester',
+        'manual_intro' => 'Décrivez la sanction que vous souhaitez contester.',
+        'manual_type' => 'Type de sanction',
+        'manual_type_placeholder' => 'ex: Ban, Mute, Blacklist...',
+        'manual_date' => 'Date de la sanction',
+        'manual_staff' => 'Sanctionné par (si connu)',
+        'manual_sanction_reason' => 'Raison donnée pour la sanction (si connue)',
     ],
 
     'index' => [

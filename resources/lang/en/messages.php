@@ -23,6 +23,12 @@ return [
         'no_sanction_detected' => 'No active sanction could be detected automatically. You can still submit your appeal.',
         'multiple_sanctions' => 'You have several active sanctions. Choose the one you want to appeal.',
         'choose_sanction' => 'Sanction to appeal',
+        'manual_intro' => 'Describe the sanction you want to appeal.',
+        'manual_type' => 'Sanction type',
+        'manual_type_placeholder' => 'e.g. Ban, Mute, Blacklist...',
+        'manual_date' => 'Sanction date',
+        'manual_staff' => 'Sanctioned by (if known)',
+        'manual_sanction_reason' => 'Reason given for the sanction (if known)',
     ],
 
     'index' => [

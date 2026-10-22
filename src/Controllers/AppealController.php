@@ -66,6 +66,7 @@ class AppealController extends Controller
             'reasons' => $this->reasons(),
             'sanctions' => $sanctions,
             'sanction' => count($sanctions) === 1 ? reset($sanctions) : null,
+            'needsManualSanction' => ! $sanctionSource->isConfigured(),
             'introText' => setting('appeals.create_intro_text'),
             'explanationMin' => (int) setting('appeals.explanation_min_length', 20),
             'explanationMax' => (int) setting('appeals.explanation_max_length', 5000),
@@ -112,6 +113,11 @@ class AppealController extends Controller
 
         if (count($sanctions) > 1) {
             $rules['sanction_type'] = ['required', 'string', Rule::in(array_keys($sanctions))];
+        } elseif (! $sanctionSource->isConfigured()) {
+            $rules['sanction_type'] = ['required', 'string', 'max:100'];
+            $rules['sanction_date'] = ['required', 'date', 'before_or_equal:today'];
+            $rules['sanction_staff'] = ['nullable', 'string', 'max:255'];
+            $rules['sanction_reason'] = ['nullable', 'string', 'max:255'];
         }
 
         $this->validate($request, $rules);
@@ -130,6 +136,12 @@ class AppealController extends Controller
             $appeal->sanction_staff = $sanction->staff;
             $appeal->sanction_source = $sanction->source;
             $appeal->sanction_reference = $sanction->reference;
+        } elseif (! $sanctionSource->isConfigured()) {
+            $appeal->sanction_type = $request->input('sanction_type');
+            $appeal->sanction_reason = $request->input('sanction_reason');
+            $appeal->sanction_date = $request->input('sanction_date');
+            $appeal->sanction_staff = $request->input('sanction_staff');
+            $appeal->sanction_source = 'manual';
         }
 
         $appeal->save();
@@ -181,12 +193,25 @@ class AppealController extends Controller
 
         abort_unless($appeal->isActive(), 403);
 
-        $this->validate($request, [
+        $rules = [
             'reason_key' => ['required', 'string', Rule::in($this->reasons())],
             'explanation' => $this->explanationRules(),
-        ]);
+        ];
 
-        $appeal->update($request->only('reason_key', 'explanation'));
+        $fields = ['reason_key', 'explanation'];
+
+        if ($appeal->sanction_source === 'manual') {
+            $rules['sanction_type'] = ['required', 'string', 'max:100'];
+            $rules['sanction_date'] = ['required', 'date', 'before_or_equal:today'];
+            $rules['sanction_staff'] = ['nullable', 'string', 'max:255'];
+            $rules['sanction_reason'] = ['nullable', 'string', 'max:255'];
+
+            $fields = array_merge($fields, ['sanction_type', 'sanction_date', 'sanction_staff', 'sanction_reason']);
+        }
+
+        $this->validate($request, $rules);
+
+        $appeal->update($request->only($fields));
 
         return redirect()->route('appeals.show', $appeal)->with('success', trans('appeals::messages.updated'));
     }

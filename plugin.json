@@ -1,7 +1,7 @@
 {
     "id": "appeals",
     "name": "Appeals",
-    "description": "Allow your players to appeal their bans and mutes directly from your website.",
+    "description": "Let your players appeal their bans and mutes from your website, with structured sanction details — any game, not just Minecraft.",
     "version": "1.0.0",
     "url": "https://market.azuriom.com/resources/appeals",
     "authors": [

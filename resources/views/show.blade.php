@@ -26,7 +26,7 @@
                     <div class="card-body">
                         <dl class="row mb-0">
                             <dt class="col-sm-4">{{ trans('messages.fields.type') }}</dt>
-                            <dd class="col-sm-8">{{ trans('appeals::messages.sanctions.types.'.$appeal->sanction_type) }}</dd>
+                            <dd class="col-sm-8">{{ \Azuriom\Plugin\Appeals\Models\Appeal::sanctionTypeLabel($appeal->sanction_type) }}</dd>
 
                             <dt class="col-sm-4">{{ trans('appeals::messages.sanctions.reason') }}</dt>
                             <dd class="col-sm-8">{{ $appeal->sanction_reason ?? trans('appeals::messages.sanctions.unknown_reason') }}</dd>

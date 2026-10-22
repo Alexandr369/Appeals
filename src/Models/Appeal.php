@@ -110,4 +110,20 @@ class Appeal extends Model
             default => 'secondary',
         };
     }
+
+    /**
+     * Display label for a sanction type. The 'ban'/'mute' types coming from an
+     * automatic source are translated, while a manually entered type (free text,
+     * so it fits any game or sanction system) is displayed as-is.
+     */
+    public static function sanctionTypeLabel(?string $type): ?string
+    {
+        if ($type === null) {
+            return null;
+        }
+
+        return in_array($type, ['ban', 'mute'], true)
+            ? trans('appeals::messages.sanctions.types.'.$type)
+            : $type;
+    }
 }

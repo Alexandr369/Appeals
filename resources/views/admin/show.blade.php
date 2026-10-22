@@ -35,7 +35,7 @@
                 <h6>{{ trans('appeals::messages.sanctions.title') }}</h6>
                 <dl class="row mb-0">
                     <dt class="col-sm-3">{{ trans('messages.fields.type') }}</dt>
-                    <dd class="col-sm-9">{{ trans('appeals::messages.sanctions.types.'.$appeal->sanction_type) }}</dd>
+                    <dd class="col-sm-9">{{ \Azuriom\Plugin\Appeals\Models\Appeal::sanctionTypeLabel($appeal->sanction_type) }}</dd>
 
                     <dt class="col-sm-3">{{ trans('appeals::messages.sanctions.reason') }}</dt>
                     <dd class="col-sm-9">{{ $appeal->sanction_reason ?? trans('appeals::messages.sanctions.unknown_reason') }}</dd>
