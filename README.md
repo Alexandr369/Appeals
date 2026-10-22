@@ -38,8 +38,6 @@ Vos joueurs bannis ou mute n'ont aujourd'hui aucun moyen de contester leur sanct
 - Traductions complètes en français et en anglais.
 - Compatible avec le thème par défaut d'Azuriom, construit en Bootstrap 5 pour s'intégrer à la plupart des autres thèmes.
 
-*Une version Pro est en préparation : support de LiteBans, discussion interne du staff sur une demande, et statistiques.*
-
 ## 🇬🇧 English
 
 # Appeals — Sanction appeal system
@@ -75,5 +73,3 @@ Banned or muted players currently have no way to contest their sanction from you
 - 100% read-only on those external databases: Appeals never modifies your sanction data.
 - Fully translated in French and English.
 - Compatible with Azuriom's default theme, built with Bootstrap 5 to fit most other themes.
-
-*A Pro version is in the works: LiteBans support, internal staff discussion on an appeal, and statistics.*
