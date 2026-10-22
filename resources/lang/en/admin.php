@@ -1,0 +1,73 @@
+<?php
+
+return [
+    'nav' => [
+        'title' => 'Appeals',
+        'appeals' => 'Appeals',
+        'settings' => 'Settings',
+    ],
+
+    'permissions' => [
+        'submit' => 'Submit an appeal',
+        'edit' => 'Edit a pending appeal',
+        'view' => 'View appeals',
+        'manage' => 'Process appeals',
+        'settings' => 'Manage Appeals settings',
+    ],
+
+    'discord' => [
+        'created_title' => 'New appeal submitted',
+        'updated_title' => 'Appeal updated',
+    ],
+
+    'appeals' => [
+        'title' => 'Appeal',
+        'all_statuses' => 'All statuses',
+        'no_appeals' => 'No appeal matches these filters.',
+        'user' => 'Player',
+        'explanation' => 'Explanation',
+        'process' => 'Process the appeal',
+        'response' => 'Response to the player',
+        'handled_by' => 'Handled by :name on :date',
+        'updated' => 'The appeal has been updated.',
+        'delete_confirm' => 'Permanently delete this appeal?',
+        'deleted' => 'The appeal has been deleted.',
+        'auto_action_lift' => 'Automatically lift the sanction in-game',
+        'auto_action_help' => 'Only applies if you select the "Accepted" status above, and sends a real command on the server through AzLink.',
+        'auto_action_sent' => 'Command sent to server :server. Check in-game that the sanction was actually lifted.',
+        'auto_action_error_no_sanction' => 'Automatic action skipped: this appeal has no detected sanction attached.',
+        'auto_action_error_no_server' => 'Automatic action skipped: no server is configured in the Appeals settings.',
+        'auto_action_error_no_command' => 'Automatic action skipped: no command is configured for this sanction type in the Appeals settings.',
+    ],
+
+    'settings' => [
+        'title' => 'Appeals settings',
+        'section_source' => 'Sanction source',
+        'source' => 'Source',
+        'source_none' => 'None (free text from the player)',
+        'source_help' => 'The database connection is reused from the matching AdvancedBan or LibertyBans plugin settings: nothing to enter here.',
+        'no_source_plugin' => 'No compatible sanction plugin (AdvancedBan or LibertyBans) is installed on this site. Players will have to describe their situation freely, without automatic detection.',
+        'appealable_types' => 'Sanctions that can be appealed',
+        'appealable_types_help' => 'Uncheck a type to stop players from appealing that type of sanction (the form stays blocked if that is the only sanction type they have active).',
+        'block_resolved_sanction_reappeal' => 'Prevent a new appeal for an already decided sanction',
+        'block_resolved_sanction_reappeal_help' => 'If enabled, a player can no longer submit a new appeal for a specific sanction once it has been accepted or rejected (even after the delay above has passed).',
+        'connection_ok' => 'Successfully connected to the database.',
+        'connection_error' => 'Could not connect to the database. Check the settings of the matching AdvancedBan or LibertyBans plugin.',
+        'connection_not_configured' => 'This plugin does not have a database connection configured in its own settings yet.',
+        'section_general' => 'General settings',
+        'reappeal_delay_hours' => 'Delay before a new appeal after a rejection (hours)',
+        'reasons' => 'Available reasons',
+        'reasons_placeholder' => "One reason per line, for example:\nI was banned by mistake\nThe sanction is too severe\nI apologized to the staff",
+        'reasons_help' => 'One reason per line. These are shown as-is to the player in the form.',
+        'discord_webhook' => 'Discord webhook URL',
+        'section_automation' => 'Automation (via AzLink)',
+        'auto_action_enabled' => 'Enable automatic in-game action',
+        'auto_action_enabled_help' => 'Requires the server selected below to have AzLink installed and configured. Staff will then be able to choose, when accepting an appeal, to automatically lift the in-game sanction.',
+        'auto_action_server' => 'Target server',
+        'auto_action_server_placeholder' => 'Select a server',
+        'auto_action_server_help' => 'Only servers that can execute commands (AzLink) are listed.',
+        'auto_action_lift_command_ban' => 'Command to lift a ban',
+        'auto_action_lift_command_mute' => 'Command to lift a mute',
+        'auto_action_commands_help' => 'Use {player} for the player name. The exact syntax depends on your sanction plugin.',
+    ],
+];

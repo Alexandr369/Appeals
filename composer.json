@@ -1,0 +1,11 @@
+{
+    "name": "azuriom/appeals",
+    "type": "azuriom-plugin",
+    "description": "Allow your players to appeal their bans and mutes directly from your website.",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Azuriom\\Plugin\\Appeals\\": "src/"
+        }
+    }
+}

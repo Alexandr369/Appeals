@@ -1,0 +1,73 @@
+<?php
+
+return [
+    'nav' => [
+        'title' => 'Appeals',
+        'appeals' => 'Demandes',
+        'settings' => 'Réglages',
+    ],
+
+    'permissions' => [
+        'submit' => 'Déposer une demande de recours',
+        'edit' => 'Modifier une demande de recours en cours',
+        'view' => 'Voir les demandes de recours',
+        'manage' => 'Traiter les demandes de recours',
+        'settings' => 'Gérer les réglages d\'Appeals',
+    ],
+
+    'discord' => [
+        'created_title' => 'Nouvelle demande de recours',
+        'updated_title' => 'Demande de recours mise à jour',
+    ],
+
+    'appeals' => [
+        'title' => 'Demande de recours',
+        'all_statuses' => 'Tous les statuts',
+        'no_appeals' => 'Aucune demande ne correspond à ces critères.',
+        'user' => 'Joueur',
+        'explanation' => 'Explication',
+        'process' => 'Traiter la demande',
+        'response' => 'Réponse au joueur',
+        'handled_by' => 'Traitée par :name le :date',
+        'updated' => 'La demande a été mise à jour.',
+        'delete_confirm' => 'Supprimer définitivement cette demande ?',
+        'deleted' => 'La demande a été supprimée.',
+        'auto_action_lift' => 'Lever automatiquement la sanction en jeu',
+        'auto_action_help' => 'Ne s\'applique que si tu choisis le statut "Acceptée" ci-dessus, et envoie une vraie commande sur le serveur via AzLink.',
+        'auto_action_sent' => 'Commande envoyée au serveur :server. Vérifie en jeu que la sanction a bien été levée.',
+        'auto_action_error_no_sanction' => 'Action automatique ignorée : cette demande n\'a pas de sanction détectée associée.',
+        'auto_action_error_no_server' => 'Action automatique ignorée : aucun serveur n\'est configuré dans les réglages d\'Appeals.',
+        'auto_action_error_no_command' => 'Action automatique ignorée : aucune commande n\'est configurée pour ce type de sanction dans les réglages d\'Appeals.',
+    ],
+
+    'settings' => [
+        'title' => 'Réglages d\'Appeals',
+        'section_source' => 'Source des sanctions',
+        'source' => 'Source',
+        'source_none' => 'Aucune (saisie libre par le joueur)',
+        'source_help' => 'La connexion à la base de données est réutilisée depuis les réglages du plugin AdvancedBan ou LibertyBans correspondant : rien à ressaisir ici.',
+        'no_source_plugin' => 'Aucun plugin de sanctions compatible (AdvancedBan ou LibertyBans) n\'est installé sur ce site. Les joueurs devront décrire leur situation librement, sans détection automatique.',
+        'appealable_types' => 'Sanctions pouvant faire l\'objet d\'un recours',
+        'appealable_types_help' => 'Décoche un type pour empêcher les joueurs de contester ce type de sanction (le formulaire restera bloqué s\'ils n\'ont que ce type de sanction active).',
+        'block_resolved_sanction_reappeal' => 'Empêcher un nouveau recours sur une sanction déjà tranchée',
+        'block_resolved_sanction_reappeal_help' => 'Si activé, un joueur ne peut plus déposer de nouvelle demande pour une sanction précise une fois qu\'elle a été acceptée ou refusée (même après le délai d\'attente ci-dessus).',
+        'connection_ok' => 'Connexion à la base de données réussie.',
+        'connection_error' => 'Impossible de se connecter à la base de données. Vérifie les réglages du plugin AdvancedBan ou LibertyBans correspondant.',
+        'connection_not_configured' => 'Ce plugin n\'a pas encore de connexion à une base de données configurée dans ses propres réglages.',
+        'section_general' => 'Réglages généraux',
+        'reappeal_delay_hours' => 'Délai avant une nouvelle demande après un refus (heures)',
+        'reasons' => 'Motifs proposés',
+        'reasons_placeholder' => "Un motif par ligne, par exemple :\nJ'ai été banni par erreur\nLa sanction est trop sévère\nJe me suis excusé auprès du staff",
+        'reasons_help' => 'Un motif par ligne. Ces motifs sont proposés tels quels au joueur dans le formulaire.',
+        'discord_webhook' => 'URL du webhook Discord',
+        'section_automation' => 'Automatisation (via AzLink)',
+        'auto_action_enabled' => 'Activer l\'action automatique en jeu',
+        'auto_action_enabled_help' => 'Nécessite que le serveur choisi ci-dessous ait AzLink installé et configuré. Le staff pourra ensuite choisir, en acceptant une demande, de lever automatiquement la sanction en jeu.',
+        'auto_action_server' => 'Serveur ciblé',
+        'auto_action_server_placeholder' => 'Choisis un serveur',
+        'auto_action_server_help' => 'Seuls les serveurs pouvant exécuter des commandes (AzLink) sont listés.',
+        'auto_action_lift_command_ban' => 'Commande pour lever un ban',
+        'auto_action_lift_command_mute' => 'Commande pour lever un mute',
+        'auto_action_commands_help' => 'Utilise {player} pour le pseudo du joueur. La syntaxe dépend de ton plugin de sanctions.',
+    ],
+];

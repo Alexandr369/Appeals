@@ -1,0 +1,15 @@
+{
+    "id": "appeals",
+    "name": "Appeals",
+    "description": "Allow your players to appeal their bans and mutes directly from your website.",
+    "version": "1.0.0",
+    "url": "https://market.azuriom.com/resources/appeals",
+    "authors": [
+        "Alexandre"
+    ],
+    "azuriom_api": "1.0.0",
+    "providers": [
+        "\\Azuriom\\Plugin\\Appeals\\Providers\\AppealsServiceProvider",
+        "\\Azuriom\\Plugin\\Appeals\\Providers\\RouteServiceProvider"
+    ]
+}
