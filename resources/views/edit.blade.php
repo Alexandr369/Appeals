@@ -49,7 +49,8 @@
 
                         <div class="mb-3">
                             <label class="form-label" for="explanation">{{ trans('appeals::messages.create.explanation') }}</label>
-                            <textarea class="form-control @error('explanation') is-invalid @enderror" id="explanation" name="explanation" rows="6" required="required">{{ old('explanation', $appeal->explanation) }}</textarea>
+                            <textarea class="form-control @error('explanation') is-invalid @enderror" id="explanation" name="explanation" rows="6" minlength="{{ $explanationMin }}" maxlength="{{ $explanationMax }}" oninput="appealsUpdateCharCount(this, 'explanation-count')" required="required">{{ old('explanation', $appeal->explanation) }}</textarea>
+                            <div class="form-text" id="explanation-count"></div>
                             @error('explanation')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -66,4 +67,17 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function appealsUpdateCharCount(textarea, counterId) {
+                document.getElementById(counterId).textContent = textarea.value.length + ' / ' + textarea.maxLength;
+            }
+
+            window.addEventListener('load', function () {
+                var textarea = document.getElementById('explanation');
+                appealsUpdateCharCount(textarea, 'explanation-count');
+            });
+        </script>
+    @endpush
 @endsection

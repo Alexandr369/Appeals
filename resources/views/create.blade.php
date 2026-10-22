@@ -7,6 +7,10 @@
         <div class="col-lg-8">
             <h1>{{ trans('appeals::messages.create.title') }}</h1>
 
+            @if (! empty($introText))
+                <div class="alert alert-secondary" style="white-space: pre-line;">{{ $introText }}</div>
+            @endif
+
             @if (count($sanctions) > 1)
                 <div class="alert alert-info">{{ trans('appeals::messages.create.multiple_sanctions') }}</div>
             @elseif ($sanction !== null)
@@ -72,7 +76,8 @@
 
                         <div class="mb-3">
                             <label class="form-label" for="explanation">{{ trans('appeals::messages.create.explanation') }}</label>
-                            <textarea class="form-control @error('explanation') is-invalid @enderror" id="explanation" name="explanation" rows="6" required="required">{{ old('explanation') }}</textarea>
+                            <textarea class="form-control @error('explanation') is-invalid @enderror" id="explanation" name="explanation" rows="6" minlength="{{ $explanationMin }}" maxlength="{{ $explanationMax }}" oninput="appealsUpdateCharCount(this, 'explanation-count')" required="required">{{ old('explanation') }}</textarea>
+                            <div class="form-text" id="explanation-count"></div>
                             @error('explanation')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -86,4 +91,17 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function appealsUpdateCharCount(textarea, counterId) {
+                document.getElementById(counterId).textContent = textarea.value.length + ' / ' + textarea.maxLength;
+            }
+
+            window.addEventListener('load', function () {
+                var textarea = document.getElementById('explanation');
+                appealsUpdateCharCount(textarea, 'explanation-count');
+            });
+        </script>
+    @endpush
 @endsection

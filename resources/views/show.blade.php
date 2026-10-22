@@ -53,6 +53,26 @@
                 </div>
             @endif
 
+            <div class="card shadow mb-4">
+                <div class="card-header">{{ trans('appeals::messages.show.history') }}</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="badge bg-{{ \Azuriom\Plugin\Appeals\Models\Appeal::statusColor('pending') }}">
+                            {{ trans('appeals::messages.statuses.pending') }}
+                        </span>
+                        <span class="text-muted small">{{ format_date($appeal->created_at, true) }}</span>
+                    </li>
+                    @foreach ($appeal->statusHistory as $entry)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="badge bg-{{ \Azuriom\Plugin\Appeals\Models\Appeal::statusColor($entry->status) }}">
+                                {{ trans('appeals::messages.statuses.'.$entry->status) }}
+                            </span>
+                            <span class="text-muted small">{{ format_date($entry->created_at, true) }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
             <a href="{{ route('appeals.index') }}" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> {{ trans('messages.actions.back') }}
             </a>

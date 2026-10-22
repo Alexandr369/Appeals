@@ -35,6 +35,7 @@ return [
     'show' => [
         'title' => 'Appeal details',
         'staff_response' => 'Staff response',
+        'history' => 'History',
     ],
 
     'edit' => [

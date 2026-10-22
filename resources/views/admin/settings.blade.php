@@ -76,6 +76,24 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label" for="create_intro_text">{{ trans('appeals::admin.settings.create_intro_text') }}</label>
+                    <textarea class="form-control" id="create_intro_text" name="create_intro_text" rows="3">{{ $createIntroText }}</textarea>
+                    <div class="form-text">{{ trans('appeals::admin.settings.create_intro_text_help') }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="explanation_min_length">{{ trans('appeals::admin.settings.explanation_min_length') }}</label>
+                        <input type="number" min="0" max="5000" class="form-control" id="explanation_min_length" name="explanation_min_length" value="{{ $explanationMinLength }}">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" for="explanation_max_length">{{ trans('appeals::admin.settings.explanation_max_length') }}</label>
+                        <input type="number" min="1" max="20000" class="form-control" id="explanation_max_length" name="explanation_max_length" value="{{ $explanationMaxLength }}">
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">{{ trans('appeals::admin.settings.reasons') }}</label>
                     <div id="appeals-reasons-list">
                         @foreach ($reasons as $reason)

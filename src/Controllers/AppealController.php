@@ -66,6 +66,9 @@ class AppealController extends Controller
             'reasons' => $this->reasons(),
             'sanctions' => $sanctions,
             'sanction' => count($sanctions) === 1 ? reset($sanctions) : null,
+            'introText' => setting('appeals.create_intro_text'),
+            'explanationMin' => (int) setting('appeals.explanation_min_length', 20),
+            'explanationMax' => (int) setting('appeals.explanation_max_length', 5000),
         ]);
     }
 
@@ -104,7 +107,7 @@ class AppealController extends Controller
 
         $rules = [
             'reason_key' => ['required', 'string', Rule::in($this->reasons())],
-            'explanation' => ['required', 'string', 'max:5000'],
+            'explanation' => $this->explanationRules(),
         ];
 
         if (count($sanctions) > 1) {
@@ -145,7 +148,7 @@ class AppealController extends Controller
     {
         $this->authorizeOwner($request, $appeal);
 
-        return view('appeals::show', ['appeal' => $appeal]);
+        return view('appeals::show', ['appeal' => $appeal->load('statusHistory')]);
     }
 
     /**
@@ -162,6 +165,8 @@ class AppealController extends Controller
         return view('appeals::edit', [
             'appeal' => $appeal,
             'reasons' => $this->reasons(),
+            'explanationMin' => (int) setting('appeals.explanation_min_length', 20),
+            'explanationMax' => (int) setting('appeals.explanation_max_length', 5000),
         ]);
     }
 
@@ -178,7 +183,7 @@ class AppealController extends Controller
 
         $this->validate($request, [
             'reason_key' => ['required', 'string', Rule::in($this->reasons())],
-            'explanation' => ['required', 'string', 'max:5000'],
+            'explanation' => $this->explanationRules(),
         ]);
 
         $appeal->update($request->only('reason_key', 'explanation'));
@@ -240,6 +245,20 @@ class AppealController extends Controller
             ->where('sanction_source', $sanction->source)
             ->where('sanction_reference', $sanction->reference)
             ->exists();
+    }
+
+    /**
+     * The validation rules for the explanation field, using the admin-configured
+     * min/max length.
+     *
+     * @return array<int, string>
+     */
+    protected function explanationRules(): array
+    {
+        $min = (int) setting('appeals.explanation_min_length', 20);
+        $max = (int) setting('appeals.explanation_max_length', 5000);
+
+        return ['required', 'string', "min:{$min}", "max:{$max}"];
     }
 
     /**

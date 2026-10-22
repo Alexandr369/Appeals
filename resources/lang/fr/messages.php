@@ -35,6 +35,7 @@ return [
     'show' => [
         'title' => 'Détail de la demande',
         'staff_response' => 'Réponse du staff',
+        'history' => 'Historique',
     ],
 
     'edit' => [

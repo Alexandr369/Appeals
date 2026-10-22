@@ -79,7 +79,7 @@ class AppealController extends Controller
     public function show(Appeal $appeal)
     {
         return view('appeals::admin.show', [
-            'appeal' => $appeal->load('user', 'handledBy'),
+            'appeal' => $appeal->load('user', 'handledBy', 'statusHistory.changedBy'),
             'statuses' => Appeal::STATUSES,
             'autoActionEnabled' => (bool) setting('appeals.auto_action_enabled', false),
             'autoActionCommands' => $this->autoActionCommands(),
@@ -111,6 +111,11 @@ class AppealController extends Controller
         (new DiscordNotifier())->notifyStatusChanged($appeal);
 
         if ($statusChanged) {
+            $appeal->statusHistory()->create([
+                'status' => $appeal->status,
+                'changed_by' => $request->user()->id,
+            ]);
+
             $this->notifyPlayer($appeal);
         }
 

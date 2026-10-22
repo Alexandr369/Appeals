@@ -68,6 +68,14 @@ class Appeal extends Model
     }
 
     /**
+     * Get the history of status changes for this appeal, in chronological order.
+     */
+    public function statusHistory()
+    {
+        return $this->hasMany(AppealStatusHistory::class)->orderBy('created_at');
+    }
+
+    /**
      * Scope a query to only include appeals that are still pending or under review.
      */
     public function scopeActive($query)
