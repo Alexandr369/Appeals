@@ -1,12 +1,12 @@
 # Appeals
 
-Azuriom plugin letting players appeal a sanction directly from your website — every appeal is tied to structured sanction data (type, date, staff), not a generic support ticket. Works with any game or moderation system; AdvancedBan/LibertyBans auto-detection is an optional bonus for Minecraft servers.
+Azuriom plugin letting players appeal a sanction directly from your website. Unlike a generic support ticket, accepting an appeal can automatically execute an in-game command (unban, unmute, anything) — every appeal is tied to structured sanction data (type, date, staff), never free-form text. Works with any game or moderation system; AdvancedBan/LibertyBans auto-detection is an optional bonus for Minecraft servers.
 
 ## 🇫🇷 Français
 
 # Appeals — Système de recours de sanctions
 
-Vos joueurs sanctionnés n'ont aujourd'hui aucun moyen de contester leur sanction depuis votre site. **Ce n'est pas un système de tickets générique** comme le plugin Support : chaque demande Appeals est structurée autour d'une sanction précise (type, date, responsable), que celle-ci soit détectée automatiquement ou renseignée par le joueur. **Appeals fonctionne avec n'importe quel jeu ou système de modération** — AdvancedBan et LibertyBans (Minecraft) ne sont que des intégrations optionnelles qui évitent au joueur de ressaisir les informations à la main.
+Vos joueurs sanctionnés n'ont aujourd'hui aucun moyen de contester leur sanction depuis votre site. **Ce n'est pas un système de tickets générique** comme le plugin Support : accepter une demande peut **exécuter automatiquement une commande en jeu** (débannir, démuter, n'importe quoi d'autre) — un ticket de support classique ne pourra jamais faire ça. Chaque demande Appeals est en plus structurée autour d'une sanction précise (type, date, responsable), que celle-ci soit détectée automatiquement ou renseignée par le joueur, jamais un simple texte libre. **Appeals fonctionne avec n'importe quel jeu ou système de modération** — AdvancedBan et LibertyBans (Minecraft) ne sont que des intégrations optionnelles qui évitent au joueur de ressaisir les informations à la main.
 
 ### Côté joueur
 
@@ -23,11 +23,11 @@ Vos joueurs sanctionnés n'ont aujourd'hui aucun moyen de contester leur sanctio
 
 ### Côté staff
 
+- **Automatisation en jeu entièrement personnalisable** — ce qu'un système de tickets ne peut pas faire : définissez autant de commandes que vous voulez (débannir, démuter, donner un grade, etc.), chacune avec un nom et une commande ; le staff choisit laquelle exécuter dans un menu déroulant au moment d'accepter une demande, envoyée via AzLink.
 - Liste des demandes avec compteurs par statut, filtres, recherche par pseudo, pagination.
 - Traitement en un clic : changer le statut et répondre au joueur, avec des **réponses pré-écrites** sélectionnables dans un menu déroulant pour gagner du temps.
 - Suppression d'une demande si besoin.
 - Un badge rouge dans le menu d'administration indique en permanence le nombre de demandes non traitées.
-- **Automatisation en jeu entièrement personnalisable** : définissez autant de commandes que vous voulez (débannir, démuter, donner un grade, etc.), chacune avec un nom et une commande ; le staff choisit laquelle exécuter dans un menu déroulant au moment d'accepter une demande, envoyée via AzLink.
 - Notifications Discord par webhook à chaque nouvelle demande et à chaque changement de statut, avec un **texte de message entièrement personnalisable** ({player}, {reason}, {status}).
 - Page de réglages complète : source des sanctions, types de sanctions contestables, délai et blocage anti-spam, bannière, texte d'intro, longueur de l'explication, motifs et réponses rapides (ajout/suppression en un clic), webhook et messages Discord, automatisation en jeu.
 - 5 permissions distinctes pour un contrôle précis des accès (déposer, modifier, voir, traiter, gérer les réglages).
@@ -43,7 +43,7 @@ Vos joueurs sanctionnés n'ont aujourd'hui aucun moyen de contester leur sanctio
 
 # Appeals — Sanction appeal system
 
-Sanctioned players currently have no way to contest their sanction from your website. **This is not a generic ticket system** like the Support plugin: every Appeals request is structured around a specific sanction (type, date, staff), whether it's detected automatically or entered by the player. **Appeals works with any game or moderation system** — AdvancedBan and LibertyBans (Minecraft) are only optional integrations that save the player from typing the details in by hand.
+Sanctioned players currently have no way to contest their sanction from your website. **This is not a generic ticket system** like the Support plugin: accepting a request can **automatically execute an in-game command** (unban, unmute, anything else) — a regular support ticket can never do that. Every Appeals request is also structured around a specific sanction (type, date, staff), whether detected automatically or entered by the player, never plain free text. **Appeals works with any game or moderation system** — AdvancedBan and LibertyBans (Minecraft) are only optional integrations that save the player from typing the details in by hand.
 
 ### Player side
 
@@ -60,11 +60,11 @@ Sanctioned players currently have no way to contest their sanction from your web
 
 ### Staff side
 
+- **Fully customizable in-game automation** — something a ticket system cannot do: define as many commands as you want (unban, unmute, grant a rank, anything), each with its own name; staff picks which one to run from a dropdown when accepting an appeal, sent through AzLink.
 - List of appeals with per-status count cards, filters, search by player name, pagination.
 - One-click processing: change the status and reply to the player, with **pre-written quick responses** selectable from a dropdown to save time.
 - Delete an appeal if needed.
 - A red badge in the admin menu always shows how many appeals are still awaiting processing.
-- **Fully customizable in-game automation**: define as many commands as you want (unban, unmute, grant a rank, anything), each with its own name; staff picks which one to run from a dropdown when accepting an appeal, sent through AzLink.
 - Discord webhook notifications on every new appeal and every status change, with **fully customizable message text** ({player}, {reason}, {status}).
 - A complete settings page: sanction source, which sanction types can be appealed, anti-spam delay and permanent block, banner, intro text, explanation length, reasons and quick responses (add/remove with one click), Discord webhook and messages, in-game automation.
 - 5 distinct permissions for fine-grained access control (submit, edit, view, process, manage settings).

@@ -1,7 +1,7 @@
 {
     "id": "appeals",
     "name": "Appeals",
-    "description": "Let your players appeal their bans and mutes from your website, with structured sanction details — any game, not just Minecraft.",
+    "description": "Sanction appeals that can auto-execute an in-game command on acceptance (unban, unmute...) — not a generic ticket system, works with any game.",
     "version": "1.0.0",
     "url": "https://market.azuriom.com/resources/appeals",
     "authors": [
